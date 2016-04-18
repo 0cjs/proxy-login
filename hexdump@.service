@@ -1,0 +1,7 @@
+[Unit]
+Description=Server that returns hexdump of input
+After=network.target
+
+[Service]
+ExecStart=/usr/bin/hexdump -C
+StandardInput=socket

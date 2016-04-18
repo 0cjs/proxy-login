@@ -1,0 +1,25 @@
+#!/bin/bash
+
+timeout=15      # Timeout in minutes for idle connections.
+
+script_completed=false
+trap '$script_completed || err FAILED: internal error.' 0
+err()   { echo 1>&2 "$@"; script_completed=true; exit 1; }
+
+usage() { err "Usage: $0 <local-port> <ssh-command-line>"; }
+
+[ -z "$1" ] && usage
+local_port="$1"; shift
+[ -z "$1" ] && usage
+
+type socat >/dev/null 2>&1 || err "Can't find the socat program."
+socat -T $(($timeout*60)) \
+    TCP4-LISTEN:"$local_port",range=127.0.0.1/32,reuseaddr,fork \
+    EXEC:"ssh -T $*"
+# XXX We really shouldn't be listening at all on addresses other than
+# 127.0.0.1, but there seems to be no way to ask socat to listen only on
+# a specific single address. So instead we use the `range` parameter to
+# reject connections after we've accepted them. In theory this should be
+# equally secure.
+
+script_completed=true

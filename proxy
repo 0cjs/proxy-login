@@ -1,0 +1,4 @@
+#!/bin/sh
+PORT=1337
+IDLE='-i 15m'   # Assumes Nmap netcat; OpenBSD overloads -w
+exec nc $IDLE 127.0.0.1 $PORT

@@ -1,0 +1,6 @@
+[Unit]
+Description=Server that returns hexdump of input
+
+[Socket]
+ListenStream=127.0.0.1:1337
+Accept=yes
