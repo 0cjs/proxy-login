@@ -36,7 +36,7 @@ chown "$user":"$user" "$home"/.ssh "$home"/.ssh/authorized_keys
 
 [ -s "$home"/.ssh/authorized_keys ] \
     || echo "WARNING: No keys in $home/.ssh/authorized_keys"
-diff -u "$proxy_template" "$home"/proxy
+diff -u "$proxy_template" "$home"/proxy || true
 
 echo Checking for unnecessary files:
 find "$home" -type f \
