@@ -22,6 +22,24 @@ on a local port and proxy connections from that port to the server
 above.
 
 
+setup-proxy-user
+----------------
+
+This script is (or should be) idempotent: you can run it as often as you
+like and it will do whatever needs to be done that hasn't already been
+done, including adding the user, copying the template proxy shell to
+`$HOME/proxy` if it doesn't already exist, setting permissions, and so
+forth.
+
+It also serves as a check tool to indicate things that might be wrong,
+such as extra files in the user's home directory or lack of a key in the
+`.ssh/authorized_keys` file.
+
+Part of this check prints out the differences between the template
+supplied with this repo and the actual `$HOME/proxy` file. This is
+perhaps not the best or most convenient check.
+
+
 Dependencies
 ------------
 
