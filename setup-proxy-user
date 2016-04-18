@@ -30,7 +30,7 @@ chown -R root:root "$home"
 chmod -R go-w "$home"
 chmod go+rX "$home"
 chmod go+rx "$home/proxy"
-chsh -s "$home/proxy" "$user"
+chsh -s "$home/proxy" "$user" >/dev/null
 
 mkdir -p "$home"/.ssh
 touch "$home"/.ssh/authorized_keys
