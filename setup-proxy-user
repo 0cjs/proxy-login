@@ -12,6 +12,10 @@ user="$1"; shift
 
 [ $(id -u) = 0 ] || err "$0 must be run as root."
 
+sed -e 's/#.*//' /etc/ssh/sshd_config | grep -q 'AllowTcpForwarding no' \
+    || echo WARNING: \
+            "sshd does not appear to have 'AllowTcpForwarding no' configured"
+
 id -u "$user" >/dev/null 2>&1 || { echo useradd "$user"; useradd "$user"; }
 home=$(eval echo ~$user)
 
