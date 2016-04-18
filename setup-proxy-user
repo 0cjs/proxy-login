@@ -10,9 +10,38 @@ usage() { err "Usage: $0 <login-name>"; }
 user="$1"; shift
 [ -n "$1" ] && usage
 
-
 [ $(id -u) = 0 ] || err "$0 must be run as root."
 
-#id -u "$user" || useradd "$user"
+id -u "$user" >/dev/null 2>&1 || { echo useradd "$user"; useradd "$user"; }
+home=$(eval echo ~$user)
+
+echo "Setting up $home"
+proxy_template="$(dirname $0)/proxy"
+[ -f "$home/proxy" ] || cp "$proxy_template" "$home"
+
+# User should not own or have writable any files other than those that
+# sshd requires for login: .ssh/ and .ssh/authorized_keys.
+
+chown -R root:root "$home"
+chmod -R go-w "$home"
+chmod go+rX "$home"
+chmod go+rx "$home/proxy"
+chsh -s "$home/proxy" "$user"
+
+mkdir -p "$home"/.ssh
+touch "$home"/.ssh/authorized_keys
+chmod 0755 "$home"/.ssh/ "$home"/.ssh/authorized_keys
+chown "$user":"$user" "$home"/.ssh "$home"/.ssh/authorized_keys
+
+
+[ -s "$home"/.ssh/authorized_keys ] \
+    || echo "WARNING: No keys in $home/.ssh/authorized_keys"
+diff -u "$proxy_template" "$home"/proxy
+
+echo Checking for unnecessary files:
+find "$home" -type f \
+    | grep -v "^$home/.ssh/authorized_keys\$" \
+    | grep -v "^$home/proxy\$" \
+    | cat
 
 script_completed=true
