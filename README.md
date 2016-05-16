@@ -43,10 +43,10 @@ perhaps not the best or most convenient check.
 Dependencies
 ------------
 
-The remote end running the server depend on having netcat (`nc`)
-available. The timeout parameter supplied assumes the [nmap version of
-netcat](https://nmap.org/ncat/), but by removing this or tweaking it
-appropriately, other flavours of netcat should work as well.
+The remote end running the server depends on having a version of netcat
+(`nc`) available. The timeout parameter supplied assumes the [nmap
+version of netcat](https://nmap.org/ncat/), but by removing this or
+tweaking it appropriately, other flavours of netcat should work as well.
 
 The local end requires [socat](http://www.dest-unreach.org/socat/).
 
