@@ -30,6 +30,7 @@ chown -R root:root "$home"
 chmod -R go-w "$home"
 chmod go+rX "$home"
 chmod go+rx "$home/proxy"
+touch "$home/.hushlogin"; chmod go+r "$home/.hushlogin"
 chsh -s "$home/proxy" "$user" >/dev/null
 
 mkdir -p "$home"/.ssh
