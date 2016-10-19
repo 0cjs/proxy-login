@@ -70,6 +70,14 @@ the proxy connects. If `sshd`'s TCP port forwarding is enabled
 ports on the local host, and other things such as X11 forwarding may
 also provide a certain amount of access.
 
+However, both of these can also be disabled by adding
+`no-port-forwarding,no-X11-forwarding` in front of each SSH key in the
+`authorized_keys` file. (See the AUTHORIZED_KEYS FILE FORMAT section
+of the [sshd manpage] for details.) The setup script in this repo
+should probably check for this and warn if it's not been done.
+
+[sshd manpage]: https://www.freebsd.org/cgi/man.cgi?query=sshd
+
 It may be worthwhile to run a fairly "open" sshd for administrative
 users that does not allow logins from other users, and for other users
 run an sshd on a separate port that is thoroughly locked down.
